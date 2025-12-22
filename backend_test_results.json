@@ -1,0 +1,57 @@
+{
+  "total_tests": 7,
+  "passed_tests": 7,
+  "failed_tests": 0,
+  "success_rate": 100.0,
+  "results": [
+    {
+      "test": "Root API",
+      "success": true,
+      "details": "",
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "test": "Get Plans",
+      "success": true,
+      "details": "",
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "test": "Get Videos (Public)",
+      "success": true,
+      "details": "",
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "test": "Get Categories",
+      "success": true,
+      "details": "",
+      "expected_status": 200,
+      "actual_status": 200
+    },
+    {
+      "test": "Auth Me (Unauthorized)",
+      "success": true,
+      "details": "",
+      "expected_status": 401,
+      "actual_status": 401
+    },
+    {
+      "test": "Create Video (Unauthorized)",
+      "success": true,
+      "details": "",
+      "expected_status": 403,
+      "actual_status": 403
+    },
+    {
+      "test": "Create Payment (Unauthorized)",
+      "success": true,
+      "details": "",
+      "expected_status": 401,
+      "actual_status": 401
+    }
+  ]
+}
