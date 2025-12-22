@@ -1,0 +1,132 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "The Anti-AI Designer",
+    "mission": "Create a raw, intense, and physical digital experience for wrestling enthusiasts. Reject clinical SaaS aesthetics in favor of the 'Underground Dojo' vibe.",
+    "principles": [
+      "Fusion: Brutalist Typography x Sports Analytics",
+      "Emotion: Sweat, Grit, and Secret Knowledge",
+      "Content: Video is King. The player is the altar.",
+      "Contrast: Deep blacks vs. Electric Warning Colors"
+    ]
+  },
+  "typography": {
+    "headings": {
+      "family": "Anton, sans-serif",
+      "usage": "All section titles, hero text, pricing tiers",
+      "weight": "400",
+      "letterSpacing": "tracking-wide",
+      "transform": "uppercase"
+    },
+    "body": {
+      "family": "Manrope, sans-serif",
+      "usage": "Descriptions, instructions, UI elements",
+      "weights": ["400", "500", "700"]
+    },
+    "installation": "Import from Google Fonts: https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700&display=swap"
+  },
+  "colors": {
+    "theme": "dark",
+    "palette": {
+      "background": "#09090b",
+      "surface": "#18181b",
+      "surface_highlight": "#27272a",
+      "primary": "#dc2626",
+      "primary_hover": "#b91c1c",
+      "secondary": "#eab308",
+      "text_main": "#fafafa",
+      "text_muted": "#a1a1aa",
+      "border": "#27272a",
+      "success": "#22c55e",
+      "warning": "#f59e0b"
+    },
+    "usage_rules": {
+      "gradients": "NO generic gradients. Use noise textures over solid colors.",
+      "primary_color": "Use RED (#dc2626) for 'Secret Techniques', CTAs, and the Admin Upload button.",
+      "secondary_color": "Use GOLD (#eab308) for 'Premium/Annual' plan highlights."
+    }
+  },
+  "visual_enhancers": {
+    "texture": "Apply a subtle noise overlay (opacity 0.03) to the main background to simulate a wrestling mat texture.",
+    "borders": "1px solid borders with #27272a. Active states get #dc2626 border.",
+    "shadows": "Hard shadows for a brutalist feel. box-shadow: 4px 4px 0px 0px rgba(0,0,0,1).",
+    "glassmorphism": "Use only on sticky nav and video controls: bg-black/80 backdrop-blur-md border-b border-white/10."
+  },
+  "layout": {
+    "grid_system": "Bento Grid for Video Categories. Mix of 1x1 (Technique), 2x1 (Featured Move), and 2x2 (Series).",
+    "spacing": "Generous. Section padding: py-24. Gap: gap-8.",
+    "container": "max-w-7xl mx-auto px-6"
+  },
+  "components": {
+    "buttons": {
+      "style": "Sharp edges or slightly rounded (rounded-sm). Uppercase text. Hard shadow on hover.",
+      "variants": {
+        "default": "bg-primary text-white hover:bg-primary_hover",
+        "outline": "border-2 border-white/20 hover:border-white text-white bg-transparent"
+      }
+    },
+    "cards": {
+      "style": "bg-surface border border-border hover:border-primary/50 transition-colors duration-300 group relative overflow-hidden",
+      "content": "Image top (aspect-video), Title (Anton), Meta info (Manrope) bottom."
+    },
+    "admin_upload_trigger": {
+      "position": "fixed bottom-8 right-8 z-50",
+      "style": "w-14 h-14 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer",
+      "icon": "PlusIcon (Lucide)",
+      "visibility": "Conditionally rendered: ONLY if user.email === 'edric.yan2022@gmail.com'"
+    }
+  },
+  "images": {
+    "hero_background": {
+      "url": "https://images.unsplash.com/photo-1549505415-e16dbd446231?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "alt": "Intense wrestler portrait grayscale",
+      "treatment": "Black and white, high contrast, overlay with gradient-to-t from-background to-transparent"
+    },
+    "training_section": {
+      "url": "https://images.unsplash.com/photo-1623092350739-4635ce84d47c?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "alt": "Wrestler training on bar"
+    },
+    "texture_overlay": {
+      "url": "https://images.unsplash.com/photo-1605552667003-1875b598dc33?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "alt": "Mat texture",
+      "usage": "Opacity 0.05, mix-blend-overlay"
+    }
+  },
+  "motion": {
+    "library": "framer-motion",
+    "transitions": "type: 'spring', stiffness: 300, damping: 30",
+    "hover_effects": "Scale up 1.02, Border color change, Hard shadow offset increase"
+  },
+  "accessibility": {
+    "contrast": "Ensure text is #fafafa on dark backgrounds. Use #a1a1aa for secondary text.",
+    "focus_states": "Visible ring-2 ring-primary ring-offset-2 ring-offset-background"
+  },
+  "instructions_to_main_agent": [
+    "1. SETUP: Install 'framer-motion', 'lucide-react', 'clsx', 'tailwind-merge'.",
+    "2. FONTS: Add Anton and Manrope to index.html or import in CSS.",
+    "3. AUTH: Implement Google OAuth. Store user email in context/state.",
+    "4. ADMIN: Create a 'ProtectedAdminComponent' that checks if user.email === 'edric.yan2022@gmail.com'. Wrap the '+' upload button in this.",
+    "5. PLANS: Create 3 tiers: Free (Basics), Monthly ($X), Annual ($Y - Best Value).",
+    "6. VIDEOS: Use a mock data array for now, but structure it with 'category', 'isPremium', 'videoUrl'.",
+    "7. CONTACT: Simple form or mailto link for edric.yan2022@gmail.com.",
+    "8. DO NOT use generic gradients. Stick to the 'Dark Dojo' aesthetic."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Components MUST use named exports (export const ComponentName = ...)",
+    "Pages MUST use default exports (export default function PageName() {...})",
+    "Use sonner for toasts"
+  ]
+}
