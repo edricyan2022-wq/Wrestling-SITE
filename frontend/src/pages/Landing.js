@@ -272,7 +272,10 @@ export default function Landing() {
       <footer className="py-8 border-t border-[#27272a]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="font-heading text-xl text-white">IRON HOLD</div>
-          <p className="text-[#a1a1aa] text-sm">© 2024 Iron Hold Wrestling. All rights reserved.</p>
+          <div className="text-center">
+            <p className="text-[#a1a1aa] text-sm">Created by <span className="text-white font-bold">Edric Yan</span></p>
+            <p className="text-[#a1a1aa] text-sm">© 2024 Iron Hold Wrestling. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
