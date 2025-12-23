@@ -72,6 +72,25 @@ class VideoCreate(BaseModel):
     thumbnail_url: Optional[str] = None
     is_premium: bool = False
 
+def extract_youtube_id(url: str) -> Optional[str]:
+    """Extract YouTube video ID from various URL formats"""
+    patterns = [
+        r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)',
+        r'youtube\.com\/shorts\/([^&\n?#]+)',
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+    return None
+
+def convert_to_embed_url(url: str) -> str:
+    """Convert any YouTube URL to embed format"""
+    video_id = extract_youtube_id(url)
+    if video_id:
+        return f"https://www.youtube.com/embed/{video_id}"
+    return url  # Return as-is if not a YouTube URL
+
 class PaymentTransaction(BaseModel):
     transaction_id: str
     session_id: str
