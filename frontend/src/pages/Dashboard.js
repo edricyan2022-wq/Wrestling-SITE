@@ -330,7 +330,7 @@ export default function Dashboard() {
             <DialogHeader>
               <DialogTitle className="font-heading text-2xl">ADD NEW VIDEO</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 mt-4">
+            <div className="space-y-4 mt-4 max-h-[70vh] overflow-y-auto pr-2">
               <div>
                 <Label className="text-[#a1a1aa]">Title *</Label>
                 <Input
@@ -362,24 +362,57 @@ export default function Dashboard() {
                 />
               </div>
               <div>
-                <Label className="text-[#a1a1aa]">Video URL * (YouTube embed URL)</Label>
+                <Label className="text-[#a1a1aa]">YouTube URL * (any YouTube link)</Label>
                 <Input
                   data-testid="video-url-input"
                   value={newVideo.video_url}
                   onChange={(e) => setNewVideo({...newVideo, video_url: e.target.value})}
                   className="bg-[#09090b] border-[#27272a] text-white"
-                  placeholder="https://www.youtube.com/embed/..."
+                  placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
                 />
+                <p className="text-xs text-[#a1a1aa] mt-1">Paste any YouTube link - we'll convert it automatically</p>
               </div>
               <div>
-                <Label className="text-[#a1a1aa]">Thumbnail URL</Label>
-                <Input
-                  data-testid="video-thumbnail-input"
-                  value={newVideo.thumbnail_url}
-                  onChange={(e) => setNewVideo({...newVideo, thumbnail_url: e.target.value})}
-                  className="bg-[#09090b] border-[#27272a] text-white"
-                  placeholder="https://..."
+                <Label className="text-[#a1a1aa]">Thumbnail Image</Label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif,image/webp"
+                  onChange={handleThumbnailUpload}
+                  className="hidden"
+                  data-testid="thumbnail-file-input"
                 />
+                {thumbnailPreview ? (
+                  <div className="relative mt-2">
+                    <img 
+                      src={thumbnailPreview} 
+                      alt="Thumbnail preview" 
+                      className="w-full h-32 object-cover rounded border border-[#27272a]"
+                    />
+                    <button
+                      onClick={removeThumbnail}
+                      className="absolute top-2 right-2 bg-black/70 p-1 rounded-full hover:bg-black"
+                      type="button"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+                    {uploadingThumbnail && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded">
+                        <div className="animate-spin w-6 h-6 border-2 border-[#dc2626] border-t-transparent rounded-full" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full mt-2 h-32 border-2 border-dashed border-[#27272a] rounded flex flex-col items-center justify-center gap-2 hover:border-[#dc2626]/50 transition-colors"
+                    data-testid="thumbnail-upload-btn"
+                  >
+                    <Image className="w-8 h-8 text-[#a1a1aa]" />
+                    <span className="text-sm text-[#a1a1aa]">Click to upload thumbnail</span>
+                  </button>
+                )}
               </div>
               <div className="flex items-center justify-between">
                 <Label className="text-[#a1a1aa]">Premium Content (Secret Technique)</Label>
@@ -392,7 +425,7 @@ export default function Dashboard() {
               <Button
                 data-testid="submit-video-btn"
                 onClick={handleUpload}
-                disabled={uploading}
+                disabled={uploading || uploadingThumbnail}
                 className="w-full bg-[#dc2626] hover:bg-[#b91c1c] text-white"
               >
                 {uploading ? 'Adding...' : 'Add Video'}
