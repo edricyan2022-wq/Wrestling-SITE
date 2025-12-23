@@ -313,12 +313,15 @@ async def create_video(video: VideoCreate, request: Request):
     last_video = await db.videos.find_one(sort=[("order", -1)])
     next_order = (last_video.get("order", 0) + 1) if last_video else 1
     
+    # Convert YouTube URL to embed format
+    embed_url = convert_to_embed_url(video.video_url)
+    
     video_doc = {
         "video_id": f"vid_{uuid.uuid4().hex[:12]}",
         "title": video.title,
         "description": video.description,
         "category": video.category,
-        "video_url": video.video_url,
+        "video_url": embed_url,
         "thumbnail_url": video.thumbnail_url,
         "is_premium": video.is_premium,
         "order": next_order,
@@ -328,6 +331,25 @@ async def create_video(video: VideoCreate, request: Request):
     await db.videos.insert_one(video_doc)
     del video_doc["_id"]
     return video_doc
+
+@api_router.post("/upload/thumbnail")
+async def upload_thumbnail(file: UploadFile = File(...), request: Request = None):
+    """Upload thumbnail image (admin only)"""
+    user = await get_current_user(request)
+    if not user or user["email"] != ADMIN_EMAIL:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Validate file type
+    allowed_types = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+    if file.content_type not in allowed_types:
+        raise HTTPException(status_code=400, detail="Invalid file type. Allowed: JPEG, PNG, GIF, WEBP")
+    
+    # Read file and convert to base64 data URL
+    contents = await file.read()
+    base64_data = base64.b64encode(contents).decode('utf-8')
+    data_url = f"data:{file.content_type};base64,{base64_data}"
+    
+    return {"thumbnail_url": data_url}
 
 @api_router.delete("/videos/{video_id}")
 async def delete_video(video_id: str, request: Request):
