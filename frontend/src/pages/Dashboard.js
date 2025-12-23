@@ -59,6 +59,49 @@ export default function Dashboard() {
     }
   };
 
+  const handleThumbnailUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Please upload a valid image (JPEG, PNG, GIF, or WEBP)');
+      return;
+    }
+
+    // Show preview immediately
+    const reader = new FileReader();
+    reader.onload = (e) => setThumbnailPreview(e.target.result);
+    reader.readAsDataURL(file);
+
+    // Upload to server
+    setUploadingThumbnail(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await axios.post(`${API}/upload/thumbnail`, formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      
+      setNewVideo(prev => ({ ...prev, thumbnail_url: response.data.thumbnail_url }));
+      toast.success('Thumbnail uploaded!');
+    } catch (error) {
+      toast.error('Failed to upload thumbnail');
+      setThumbnailPreview(null);
+    } finally {
+      setUploadingThumbnail(false);
+    }
+  };
+
+  const removeThumbnail = () => {
+    setThumbnailPreview(null);
+    setNewVideo(prev => ({ ...prev, thumbnail_url: '' }));
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   const handleUpload = async () => {
     if (!newVideo.title || !newVideo.video_url || !newVideo.category) {
       toast.error('Please fill in all required fields');
@@ -78,6 +121,7 @@ export default function Dashboard() {
         thumbnail_url: '',
         is_premium: false
       });
+      setThumbnailPreview(null);
       fetchVideos();
       fetchCategories();
     } catch (error) {
