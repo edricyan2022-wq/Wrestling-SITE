@@ -24,6 +24,9 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+  const fileInputRef = useRef(null);
   const [newVideo, setNewVideo] = useState({
     title: '',
     description: '',
